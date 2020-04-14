@@ -1,4 +1,4 @@
-import {Injectable} from '@nestjs/common';
+import {Injectable, NotFoundException} from '@nestjs/common';
 import {Model} from 'mongoose';
 import {InjectModel} from '@nestjs/mongoose';
 import {User} from './interfaces/user.interface';
@@ -17,8 +17,15 @@ export class UserService {
         return await this.userModel.findById(id).exec();
     }
 
-    async getUserByLogin(login: string) {
-        return this.userModel.find(user => user.login === login);
+    async findUserByLogin(login: string, pass: string) {
+        const user = this.userModel.findOne({login: login, password: pass},
+            function(err,obj) {
+            console.log(obj);
+        });
+        if (!user) {
+            throw new NotFoundException('Wrong login or password.');
+        }
+        return user;
     }
 
     async createUser(createUserDTO: CreateUserDTO): Promise<User> {
