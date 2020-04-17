@@ -1,4 +1,4 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
+import {ConflictException, Injectable, NotFoundException} from '@nestjs/common';
 import {Model} from 'mongoose';
 import {InjectModel} from '@nestjs/mongoose';
 import {User} from './interfaces/user.interface';
@@ -8,6 +8,8 @@ import {CreateUserDTO} from './dto/create-user.dto';
 export class UserService {
 
     constructor(@InjectModel('User') private readonly userModel: Model) {}
+
+    errors = '';
 
     async getUsers() {
         return await this.userModel.find().exec();
@@ -20,7 +22,6 @@ export class UserService {
     async findUserByLogin(login: string, pass: string) {
         const user = this.userModel.findOne({login: login, password: pass},
             function(err,obj) {
-            console.log(obj);
         });
         if (!user) {
             throw new NotFoundException('Wrong login or password.');
@@ -29,6 +30,11 @@ export class UserService {
     }
 
     async createUser(createUserDTO: CreateUserDTO): Promise<User> {
+        if ((await this.userModel.findOne({login: createUserDTO.login}))) {
+            throw new ConflictException('This username is registered already!');
+        } else if ((await this.userModel.findOne({email: createUserDTO.email}))) {
+            throw new ConflictException('Email address is registered!');
+        }
         const newUser = await this.userModel(createUserDTO);
         return newUser.save();
     }
