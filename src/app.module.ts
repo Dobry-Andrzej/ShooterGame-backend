@@ -1,17 +1,22 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import {UserModule} from './user/user.module';
-import {AuthModule} from "./auth/auth.module";
+import {AuthModule} from './auth/auth.module';
+import {Config} from './config/config';
+import { AssetsModule } from './assets/assets.module';
+
+const dbConnection = Config.DB_CONNECTION;
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb+srv://shooterGame:VEOO4OyiouZPhkaK@game-shooter-xjxyx.mongodb.net/shooter?retryWrites=true&w=majority'),
-    UserModule,
+    MongooseModule.forRoot(dbConnection, {
+      useFindAndModify: false,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }),
     AuthModule,
+    AssetsModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

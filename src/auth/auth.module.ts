@@ -1,21 +1,27 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
+import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UserModule } from "../user/user.module";
-import { PassportModule } from '@nestjs/passport';
-import { LocalStrategy } from './local.strategy';
 import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './constants';
-import {JwtStrategy} from "./jwt.strategy";
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './jwt.strategy';
+import { MailModule } from '../mail/mail.module';
+import {MongooseModule} from '@nestjs/mongoose';
+import {UserSchema} from './user.schema';
 
 @Module({
-  imports: [UserModule,
-            PassportModule,
-            JwtModule.register({
-              secret: jwtConstants.secret,
-              signOptions: { expiresIn: '60s' },
-        }),
-    ],
-    providers: [AuthService, LocalStrategy, JwtStrategy],
-    exports: [AuthService],
+  imports: [
+    MongooseModule.forFeature([{name: 'User', schema: UserSchema}]),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
+    JwtModule.register({
+      secret: 'shooterPass!2',
+      signOptions: {
+        expiresIn: '1d',
+      },
+    }),
+    forwardRef(() => MailModule),
+  ],
+  controllers: [AuthController],
+  providers: [AuthService, JwtStrategy],
+  exports: [JwtStrategy, PassportModule],
 })
 export class AuthModule {}

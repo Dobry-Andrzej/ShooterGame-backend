@@ -1,0 +1,21 @@
+{
+"locale": "pl",
+"langNames": "pl",
+"phrases": {
+  "added_as_moderator": "Zostałeś dodany jako moderator platformy Shooter",
+  "dear": "Drogi",
+  "you_have_been_added": "Zostałeś dodany do platformy",
+  "click_the_link_below_to_set_password": "Kliknij w link poniżej aby ustawić sobie hasło",
+  "set_password": "Ustaw hasło",
+  "more_details_on": "Więcej szczegółów na",
+  "if_you_dont_know_this_application_ignore_this_message": "Jeśli nie znasz tej aplikacji, po prostu zignoruj tę wiadomość",
+  "best_regards": "Z poważaniem",
+  "team": "Zespół",
+  "reset_pass_request": "Prośba o zmianę hasła",
+  "we_have_received_a_request_to_reset_your_password_in": "Otrzymaliśmy prośbę o zmianę hasła w",
+  "if_you_did_not_send_such_a_request_please_ignore_it": "Jeśli to nie Ty prosisz o zmianę hasła, proszę zignoruj tę wiadomość",
+  "if_you_receive_similar_messages_from_us": "Jeśli to nie Ty wysłałeś prośbę, a otrzymujesz od nas od czasu do czasu tego typu wiadomości - poinformuj nas o tym",
+  "if_you_really_want_to_reset_you_pass_you_have_24_h_for_it": "Jeżeli naprawdę chcesz zresetować hasło masz na to 24h, tak długo poniższy link będzie aktywny",
+  "reset_password": "Zresetuj hasło"
+  }
+}
